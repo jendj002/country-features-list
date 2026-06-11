@@ -26,7 +26,7 @@ export const countryData: Record<string, any> = {
         name: "Chile",
         description: "A uniquely shaped country on South America's west coast",
         center: [-35.6751, -71,5430],
-        zoom: 4,
+        zoom: 3,
         features: [
             {
                 name: "The Andes Mountain Range",

@@ -1,11 +1,23 @@
 "use client"
 
+import { useState, useEffect } from "react";
 import { countryData } from "@/data/features";
-import { MapContainer, TileLayer, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, useMap } from "react-leaflet";
+
+function MapController({ center, zoom }: { center: [number, number]; zoom: number }) {
+    const map = useMap();
+
+    useEffect(() => {
+        map.flyTo(center, zoom);
+    }, [center, zoom, map]);
+
+    return null;
+}
 
 export default function MapExplorer() {
     // default data view
-    const defaultCountry = countryData.australia
+    const [activeCountry, setActiveCountry] = useState<string>("australia");
+    const currentCountry = countryData[activeCountry];
 
     return (
         <div className="flex h-screen w-screen flex-col lg:flex-row bg-gray-100">
@@ -17,7 +29,15 @@ export default function MapExplorer() {
                 {/* country buttons */}
                 <div className="flex flex-col gap-2">
                     {Object.keys(countryData).map((key) => (
-                        <button key={key} className="w-full text-left p-3 rounded bg-gray-50 hover:bg-blue-50 font-medium capitalize border border-gray-200">
+                        <button
+                           className={`w-full text-left p-3 rounded font-medium capitalize border transition-all ${
+                                activeCountry === key 
+                                    ? "bg-blue-600 text-white border-blue-700 shadow-sm"
+                                    : "bg-gray-50 text-gray-800 hover:bg-blue-50 border-gray-200"
+                            }`}
+                            key={key}
+                            onClick={() => setActiveCountry(key)}
+                        >
                             {countryData[key].name}
                         </button>
                     ))}
@@ -28,16 +48,19 @@ export default function MapExplorer() {
             <main className="flex-1 bg-gray-200 flex items-center justify-center font-semibold text-gray-400">
                 <MapContainer
                     className="h-full w-full"
-                    center={defaultCountry.center}
-                    zoom={defaultCountry.zoom}
+                    center={currentCountry.center}
+                    zoom={currentCountry.zoom}
                 >
+
+                    <MapController center={currentCountry.center} zoom={currentCountry.zoom} />
+
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
 
                     {/* dynamic feature rendering */}
-                    {defaultCountry.features.map((feature: any, index: number) => {
+                    {currentCountry.features.map((feature: any, index: number) => {
                         // feature spans multiple coordinates
                         if (feature.type === "path") {
                             return (
