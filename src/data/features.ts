@@ -2,8 +2,8 @@ export const countryData: Record<string, any> = {
     australia: {
         name: "Australia",
         description: "Country and continent with a diverse set of features",
-        center: [-25.610000, 134.354722],
-        zoom: 4,
+        center: [-26.610000, 134.354722], // actual center is -25.610 but it blocks Tasmania on zoom 5
+        zoom: 5,
         features: [
             {
                 name: "The Great Barrier Reef",
@@ -25,8 +25,8 @@ export const countryData: Record<string, any> = {
     chile: {
         name: "Chile",
         description: "A uniquely shaped country on South America's west coast",
-        center: [-35.6751, -71,5430],
-        zoom: 3,
+        center: [-35.6751, -71.5430],
+        zoom: 4,
         features: [
             {
                 name: "The Andes Mountain Range",

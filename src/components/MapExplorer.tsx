@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { countryData } from "@/data/features";
-import { MapContainer, TileLayer, Polyline, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, useMap, Popup } from "react-leaflet";
 
 function MapController({ center, zoom }: { center: [number, number]; zoom: number }) {
     const map = useMap();
@@ -69,7 +69,17 @@ export default function MapExplorer() {
                                     positions={feature.coordinates}
                                     color="red"
                                     weight={4}
-                                />
+                                    bubblingMouseEvents={false} 
+                                >
+                                     <Popup>
+                                        <div className="p-1 max-w-[220px]">
+                                            <h3 className="font-bold text-gray-900 text-sm">{feature.name}</h3>
+                                            <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                                                {feature.description}
+                                            </p>
+                                        </div>
+                                     </Popup>
+                                </Polyline>
                             );
                         }
 
