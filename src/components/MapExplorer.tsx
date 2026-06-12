@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { countryData } from "@/data/features";
-import { MapContainer, TileLayer, Polyline, useMap, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, useMap, Popup, Marker } from "react-leaflet";
+import L from "leaflet";
+import marker from "public/marker-icon.png";
 
 function MapController({ center, zoom }: { center: [number, number]; zoom: number }) {
     const map = useMap();
@@ -19,6 +21,14 @@ export default function MapExplorer() {
     const [activeCountry, setActiveCountry] = useState<string>("australia");
     const currentCountry = countryData[activeCountry];
 
+    // marker icon
+    const markerIcon = L.icon({
+        iconUrl: "/marker-icon.png",
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+        popupAnchor: [-11, -62]
+    });
+    
     return (
         <div className="flex h-screen w-screen flex-col lg:flex-row bg-gray-100">
             {/* sidebar */}
@@ -84,7 +94,22 @@ export default function MapExplorer() {
                         }
 
                         // feature is on one coordinate
-                        return null;
+                        return (
+                            <Marker 
+                                key={index}
+                                position={feature.coordinates}
+                                icon={markerIcon}
+                            >
+                                <Popup>
+                                    <div className="p-1 max-w-[220px]">
+                                        <h3 className="font-bold text-gray-900 text-sm">{feature.name}</h3>
+                                            <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                                                {feature.description}
+                                            </p>
+                                        </div>
+                                    </Popup>
+                            </Marker>
+                        );
                     })}
                 </MapContainer>
             </main>

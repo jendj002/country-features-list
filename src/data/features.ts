@@ -18,6 +18,13 @@ export const countryData: Record<string, any> = {
                     [-24.498, 154.001], // bottom right ocean coordinate
                     [-24.498, 152.041]  // bottom left land coordinate
                 ]
+            },
+
+            {
+                name: "Uluru (Ayers Rock)",
+                description: "A massive sandstone monolith in the heart of the Northern Territory's arid 'Red Centre'",
+                type: "point",
+                coordinates: [-25.344, 131.036]
             }
         ]
     },
