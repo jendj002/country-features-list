@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import { countryData } from "@/data/features";
 import { MapContainer, TileLayer, Polyline, useMap, Popup, Marker } from "react-leaflet";
 import L from "leaflet";
-import marker from "public/marker-icon.png";
+import MarkerClusterGroup from "react-leaflet-cluster";
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 function MapController({ center, zoom }: { center: [number, number]; zoom: number }) {
     const map = useMap();
@@ -28,23 +30,22 @@ export default function MapExplorer() {
         iconAnchor: [9, 9],
         popupAnchor: [-11, -62]
     });
-    
+
     return (
         <div className="flex h-screen w-screen flex-col lg:flex-row bg-gray-100">
             {/* sidebar */}
             <aside className="w-full lg:w-80 bg-white p-6 shadow-md flex flex-col gap-4">
                 <h1 className="text-xl font-bold text-gray-800">World Explorer</h1>
                 <p className="text-sm text-gray-500">Select a destination to view its features.</p>
-        
+
                 {/* country buttons */}
                 <div className="flex flex-col gap-2">
                     {Object.keys(countryData).map((key) => (
                         <button
-                           className={`w-full text-left p-3 rounded font-medium capitalize border transition-all ${
-                                activeCountry === key 
+                            className={`w-full text-left p-3 rounded font-medium capitalize border transition-all ${activeCountry === key
                                     ? "bg-blue-600 text-white border-blue-700 shadow-sm"
                                     : "bg-gray-50 text-gray-800 hover:bg-blue-50 border-gray-200"
-                            }`}
+                                }`}
                             key={key}
                             onClick={() => setActiveCountry(key)}
                         >
@@ -75,44 +76,56 @@ export default function MapExplorer() {
                         if (feature.type === "path") {
                             return (
                                 <Polyline
-                                    key={index}
+                                    key={`path-${index}`}
                                     positions={feature.coordinates}
                                     color="red"
                                     weight={4}
-                                    bubblingMouseEvents={false} 
+                                    bubblingMouseEvents={false}
                                 >
-                                     <Popup>
+                                    <Popup>
                                         <div className="p-1 max-w-[220px]">
                                             <h3 className="font-bold text-gray-900 text-sm">{feature.name}</h3>
                                             <p className="text-xs text-gray-600 mt-1 leading-relaxed">
                                                 {feature.description}
                                             </p>
                                         </div>
-                                     </Popup>
+                                    </Popup>
                                 </Polyline>
                             );
                         }
-
-                        // feature is on one coordinate
-                        return (
-                            <Marker 
-                                key={index}
-                                position={feature.coordinates}
-                                icon={markerIcon}
-                            >
-                                <Popup>
-                                    <div className="p-1 max-w-[220px]">
-                                        <h3 className="font-bold text-gray-900 text-sm">{feature.name}</h3>
-                                            <p className="text-xs text-gray-600 mt-1 leading-relaxed">
-                                                {feature.description}
-                                            </p>
-                                        </div>
-                                    </Popup>
-                            </Marker>
-                        );
+                        return null; // return null for features that are not of type "path" 
                     })}
+
+                    {/* cluster markers within 50px of each other */}
+                    <MarkerClusterGroup
+                        chunkedLoading
+                        maxclusterRadius={50}
+                    >
+                        {currentCountry.features.map((feature: any, index: number) => {
+                            // feature is on one coordinate
+                            if (feature.type === "point") {
+                                return (
+                                    <Marker
+                                        key={`point-${index}`}
+                                        position={feature.coordinates}
+                                        icon={markerIcon}
+                                    >
+                                        <Popup>
+                                            <div className="p-1 max-w-[220px]">
+                                                <h3 className="font-bold text-gray-900 text-sm">{feature.name}</h3>
+                                                <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                                                    {feature.description}
+                                                </p>
+                                            </div>
+                                        </Popup>
+                                    </Marker>
+                                );
+                            }
+                            return null; // return null for features that are not of type "point"
+                        })}
+                    </MarkerClusterGroup>
                 </MapContainer>
             </main>
-        </div> 
+        </div>
     );
 }

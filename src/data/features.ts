@@ -19,13 +19,37 @@ export const countryData: Record<string, any> = {
                     [-24.498, 152.041]  // bottom left land coordinate
                 ]
             },
-
             {
                 name: "Uluru (Ayers Rock)",
                 description: "A massive sandstone monolith in the heart of the Northern Territory's arid 'Red Centre'",
                 type: "point",
                 coordinates: [-25.344, 131.036]
-            }
+            },
+            {
+                name: "The Twelve Apostles",
+                description: "A collection of limestone stacks off the shore of the Port Campbell National Park, by the Great Ocean Road in Victoria",
+                type: "point",
+                coordinates: [-38.662, 143.105]
+            }, 
+            {
+                name: "The Daintree Rainforest",
+                description: "The world's oldest tropical rainforest, home to an incredible diversity of flora and fauna",
+                type: "point",
+                coordinates: [-16.165, 145.418]
+            },
+            {
+                name: "The Sydney Harbour Bridge",
+                description: "An iconic steel arch bridge that spans Sydney Harbour, connecting the city's central business district with the North Shore",
+                type: "point",
+                coordinates: [-33.852, 151.211]
+            },
+            {
+                name: "The Sydney Opera House",
+                description: "A world-renowned performing arts center known for its distinctive sail-like design, located on Bennelong Point in Sydney Harbour",
+                type: "point",
+                coordinates: [-33.857, 151.215]
+            }, 
+            
         ]
     },
 
