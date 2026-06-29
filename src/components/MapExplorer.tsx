@@ -9,6 +9,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import { Feature } from "@/types";
 
+// custom map controller to handle flyTo on country change
 function MapController({ center, zoom }: { center: [number, number]; zoom: number }) {
     const map = useMap();
 
@@ -18,6 +19,19 @@ function MapController({ center, zoom }: { center: [number, number]; zoom: numbe
 
     return null;
 }
+
+// embed video URL parser
+const getEmbedUrl = (url: string): string | null => {
+    try {
+        const videoId = new URL(url).searchParams.get("v");
+        if (videoId) {
+            return `https://www.youtube.com/embed/${videoId}`;
+        }
+    } catch (error) {
+        console.error("Error parsing URL: ", error);
+    }
+    return null;
+};
 
 export default function MapExplorer() {
     // default data view
@@ -44,8 +58,8 @@ export default function MapExplorer() {
                     {Object.keys(countryData).map((key) => (
                         <button
                             className={`w-full text-left p-3 rounded font-medium capitalize border transition-all ${activeCountry === key
-                                    ? "bg-blue-600 text-white border-blue-700 shadow-sm"
-                                    : "bg-gray-50 text-gray-800 hover:bg-blue-50 border-gray-200"
+                                ? "bg-blue-600 text-white border-blue-700 shadow-sm"
+                                : "bg-gray-50 text-gray-800 hover:bg-blue-50 border-gray-200"
                                 }`}
                             key={key}
                             onClick={() => setActiveCountry(key)}
@@ -75,6 +89,9 @@ export default function MapExplorer() {
                     {currentCountry.features.map((feature: Feature) => {
                         // feature spans multiple coordinates
                         if (feature.type === "path") {
+                            const isVideo = feature.mediaType === "video";
+                            const embedUrl = isVideo ? getEmbedUrl(feature.mediaUrl) : null;
+
                             return (
                                 <Polyline
                                     key={feature.id}
@@ -83,12 +100,40 @@ export default function MapExplorer() {
                                     weight={4}
                                     bubblingMouseEvents={false}
                                 >
-                                    <Popup>
-                                        <div className="p-1 max-w-[220px]">
-                                            <h3 className="font-bold text-gray-900 text-sm">{feature.name}</h3>
-                                            <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                                    <Popup maxWidth={420} minWidth={280} className="responsive-map-popup">
+                                        <div className="p-1 w-[80vw] sm:w-[340px] font-sans">
+                                            <h3 className="font-bold text-gray-900 text-sm sm:text-base leading-tight">
+                                                {feature.name}
+                                            </h3>
+                                            <p className="text-xs text-gray-600 mt-1 leading-relaxed max-h-[80px] overflow-y-auto">
                                                 {feature.description}
                                             </p>
+
+                                            {feature.mediaUrl && (
+                                                <div className="w-full aspect-video mt-2 rounded overflow-hidden bg-gray-100 border border-gray-200 shadow-sm flex items-center justify-center">
+                                                    {isVideo ? (
+                                                        embedUrl ? (
+                                                            <iframe
+                                                                className="w-full h-full border-none"
+                                                                src={embedUrl}
+                                                                title={feature.name}
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                allowFullScreen
+                                                            />
+                                                        ) : (
+                                                            <p className="text-xs text-gray-400 font-medium text-center px-4">
+                                                                Invalid video URL
+                                                            </p>
+                                                        )
+                                                    ) : (
+                                                        <img
+                                                            className="w-full h-full object-cover"
+                                                            src={feature.mediaUrl}
+                                                            alt={feature.name}
+                                                        />
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     </Popup>
                                 </Polyline>
@@ -105,18 +150,49 @@ export default function MapExplorer() {
                         {currentCountry.features.map((feature: Feature) => {
                             // feature is on one coordinate
                             if (feature.type === "point") {
+                                const isVideo = feature.mediaType === "video";
+                                const embedUrl = isVideo ? getEmbedUrl(feature.mediaUrl) : null;
+
                                 return (
                                     <Marker
                                         key={feature.id}
                                         position={feature.coordinates as [number, number]}
                                         icon={markerIcon}
                                     >
-                                        <Popup>
-                                            <div className="p-1 max-w-[220px]">
-                                                <h3 className="font-bold text-gray-900 text-sm">{feature.name}</h3>
-                                                <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                                        <Popup maxWidth={420} minWidth={280} className="responsive-map-popup">
+                                            <div className="p-1 w-[80vw] sm:w-[340px] font-sans">
+                                                <h3 className="font-bold text-gray-900 text-sm sm:text-base leading-tight">
+                                                    {feature.name}
+                                                </h3>
+                                                <p className="text-xs text-gray-600 mt-1 leading-relaxed max-h-[80px] overflow-y-auto">
                                                     {feature.description}
                                                 </p>
+
+                                                {feature.mediaUrl && (
+                                                    <div className="w-full aspect-video mt-2 rounded overflow-hidden bg-gray-100 border border-gray-200 shadow-sm flex items-center justify-center">
+                                                        {isVideo ? (
+                                                            embedUrl ? (
+                                                                <iframe
+                                                                    className="w-full h-full border-none"
+                                                                    src={embedUrl}
+                                                                    title={feature.name}
+                                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                    allowFullScreen
+                                                                />
+                                                            ) : (
+                                                                <p className="text-xs text-gray-400 font-medium text-center px-4">
+                                                                    Invalid video URL
+                                                                </p>
+                                                            )
+                                                        ) : (
+                                                            <img
+                                                                className="w-full h-full object-cover"
+                                                                src={feature.mediaUrl}
+                                                                alt={feature.name}
+                                                            />
+                                                        )}
+                                                    </div>
+                                                )}
                                             </div>
                                         </Popup>
                                     </Marker>

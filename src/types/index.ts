@@ -4,4 +4,6 @@ export interface Feature {
     description: string;
     type: "point" | "path";
     coordinates: [number, number] | [number, number][];
+    mediaType: "image" | "video";
+    mediaUrl: string;
 }

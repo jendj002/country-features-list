@@ -18,7 +18,9 @@ export const countryData: Record<string, any> = {
                     [-20.998, 152.918], // right boundary angle change coordinate #3
                     [-24.498, 154.001], // bottom right ocean coordinate
                     [-24.498, 152.041]  // bottom left land coordinate
-                ],           
+                ],
+                mediaType: "image",
+                mediaUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Great_Barrier_Reef_-_NASA.jpg/1280px-Great_Barrier_Reef_-_NASA.jpg"
             },
             {
                 id: "australia-uluru",
@@ -26,6 +28,8 @@ export const countryData: Record<string, any> = {
                 description: "A massive sandstone monolith in the heart of the Northern Territory's arid 'Red Centre'",
                 type: "point",
                 coordinates: [-25.344, 131.036],
+                mediaType: "image",
+                mediaUrl: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAF3zIlJoRT9DsN_kLBKFcTjQWsED8qBvLxC8zhNcH178nLASQooG9eOV3W6499Xe5sBf3dbv1IWhbJQaZaxmkeDSYuSib-OIq71Afm9EcDUc1u018i5qydjUDK5P5z6HlesAux9sKOv-uNv=w675-h390-n-k-no"
             },
             {
                 id: "australia-twelve-apostles",
@@ -33,6 +37,8 @@ export const countryData: Record<string, any> = {
                 description: "A collection of limestone stacks off the shore of the Port Campbell National Park, by the Great Ocean Road in Victoria",
                 type: "point",
                 coordinates: [-38.662, 143.105],
+                mediaType: "image",
+                mediaUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/The_Twelve_Apostles_-_Google_Earth.jpg/1280px-The_Twelve_Apostles_-_Google_Earth.jpg"
             },
             {
                 id: "australia-daintree-rainforest",
@@ -40,6 +46,8 @@ export const countryData: Record<string, any> = {
                 description: "The world's oldest tropical rainforest, home to an incredible diversity of flora and fauna",
                 type: "point",
                 coordinates: [-16.165, 145.418],
+                mediaType: "image",
+                mediaUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Daintree_Rainforest_-_Google_Earth.jpg/1280px-Daintree_Rainforest_-_Google_Earth.jpg"
             },
             {
                 id: "australia-sydney-harbour-bridge",
@@ -47,6 +55,8 @@ export const countryData: Record<string, any> = {
                 description: "An iconic steel arch bridge that spans Sydney Harbour, connecting the city's central business district with the North Shore",
                 type: "point",
                 coordinates: [-33.852, 151.211],
+                mediaType: "image",
+                mediaUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Sydney_Harbour_Bridge_from_the_north.jpg/1280px-Sydney_Harbour_Bridge_from_the_north.jpg"
             },
             {
                 id: "australia-sydney-opera-house",
@@ -54,6 +64,8 @@ export const countryData: Record<string, any> = {
                 description: "A world-renowned performing arts center known for its distinctive sail-like design, located on Bennelong Point in Sydney Harbour",
                 type: "point",
                 coordinates: [-33.857, 151.215],
+                mediaType: "image",
+                mediaUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Sydney_Opera_House_-_Dec_2008.jpg/1280px-Sydney_Opera_House_-_Dec_2008.jpg"
             }, 
             
         ]
@@ -81,6 +93,8 @@ export const countryData: Record<string, any> = {
                     [-54.749, -69.480], // End of Andes (Chile)
                     [-54.807, -68.308] // Southern most terminus (Ushuaia, Argentina)
                 ],
+                mediaType: "image",
+                mediaUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Andes_Mountains_from_Space.jpg/1280px-Andes_Mountains_from_Space.jpg"
             }
         ]
     }
