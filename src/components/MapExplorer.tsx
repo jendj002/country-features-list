@@ -7,6 +7,7 @@ import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import { Feature } from "@/types";
 
 function MapController({ center, zoom }: { center: [number, number]; zoom: number }) {
     const map = useMap();
@@ -71,13 +72,13 @@ export default function MapExplorer() {
                     />
 
                     {/* dynamic feature rendering */}
-                    {currentCountry.features.map((feature: any, index: number) => {
+                    {currentCountry.features.map((feature: Feature) => {
                         // feature spans multiple coordinates
                         if (feature.type === "path") {
                             return (
                                 <Polyline
-                                    key={`path-${index}`}
-                                    positions={feature.coordinates}
+                                    key={feature.id}
+                                    positions={feature.coordinates as [number, number][]}
                                     color="red"
                                     weight={4}
                                     bubblingMouseEvents={false}
@@ -101,13 +102,13 @@ export default function MapExplorer() {
                         chunkedLoading
                         maxclusterRadius={50}
                     >
-                        {currentCountry.features.map((feature: any, index: number) => {
+                        {currentCountry.features.map((feature: Feature) => {
                             // feature is on one coordinate
                             if (feature.type === "point") {
                                 return (
                                     <Marker
-                                        key={`point-${index}`}
-                                        position={feature.coordinates}
+                                        key={feature.id}
+                                        position={feature.coordinates as [number, number]}
                                         icon={markerIcon}
                                     >
                                         <Popup>

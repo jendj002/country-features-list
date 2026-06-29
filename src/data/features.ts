@@ -6,6 +6,7 @@ export const countryData: Record<string, any> = {
         zoom: 5,
         features: [
             {
+                id: "australia-great-barrier-reef",
                 name: "The Great Barrier Reef",
                 description: "The world's largest coral reef system",
                 type: "path",
@@ -17,37 +18,42 @@ export const countryData: Record<string, any> = {
                     [-20.998, 152.918], // right boundary angle change coordinate #3
                     [-24.498, 154.001], // bottom right ocean coordinate
                     [-24.498, 152.041]  // bottom left land coordinate
-                ]
+                ],           
             },
             {
+                id: "australia-uluru",
                 name: "Uluru (Ayers Rock)",
                 description: "A massive sandstone monolith in the heart of the Northern Territory's arid 'Red Centre'",
                 type: "point",
-                coordinates: [-25.344, 131.036]
+                coordinates: [-25.344, 131.036],
             },
             {
+                id: "australia-twelve-apostles",
                 name: "The Twelve Apostles",
                 description: "A collection of limestone stacks off the shore of the Port Campbell National Park, by the Great Ocean Road in Victoria",
                 type: "point",
-                coordinates: [-38.662, 143.105]
-            }, 
+                coordinates: [-38.662, 143.105],
+            },
             {
+                id: "australia-daintree-rainforest",
                 name: "The Daintree Rainforest",
                 description: "The world's oldest tropical rainforest, home to an incredible diversity of flora and fauna",
                 type: "point",
-                coordinates: [-16.165, 145.418]
+                coordinates: [-16.165, 145.418],
             },
             {
+                id: "australia-sydney-harbour-bridge",
                 name: "The Sydney Harbour Bridge",
                 description: "An iconic steel arch bridge that spans Sydney Harbour, connecting the city's central business district with the North Shore",
                 type: "point",
-                coordinates: [-33.852, 151.211]
+                coordinates: [-33.852, 151.211],
             },
             {
+                id: "australia-sydney-opera-house",
                 name: "The Sydney Opera House",
                 description: "A world-renowned performing arts center known for its distinctive sail-like design, located on Bennelong Point in Sydney Harbour",
                 type: "point",
-                coordinates: [-33.857, 151.215]
+                coordinates: [-33.857, 151.215],
             }, 
             
         ]
@@ -60,6 +66,7 @@ export const countryData: Record<string, any> = {
         zoom: 4,
         features: [
             {
+                id: "chile-the-andes-mountain-range",
                 name: "The Andes Mountain Range",
                 description: "The world's largest continental mountain range spanning 7 countries",
                 type: "path",
@@ -73,7 +80,7 @@ export const countryData: Record<string, any> = {
                     [-46.596, -73.345], // Chilean Patagonian peak
                     [-54.749, -69.480], // End of Andes (Chile)
                     [-54.807, -68.308] // Southern most terminus (Ushuaia, Argentina)
-                ]
+                ],
             }
         ]
     }
