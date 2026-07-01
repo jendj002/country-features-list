@@ -1,3 +1,12 @@
+/**
+ * @file countryData.ts
+ * 
+ * ARCHITECTURAL DECISION: Local static data storage
+ * For this small and simple project, the country data is stored in a local file (countryData.ts). 
+ * This decision was made to simplify the project and avoid unnecessary complexity or maintainence overhead. 
+ * In a real-world application which is required to be scalable, flexible, and secure
+ * It would be more appropriate to fetch this data from a backend service or database.
+ */ 
 export const countryData: Record<string, any> = {
     australia: {
         name: "Australia",
