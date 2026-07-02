@@ -8,7 +8,6 @@ export default function Sidebar({ countryData, activeCountry, onCountrySelect }:
             <h1 className="text-xl font-bold text-gray-800">World Explorer</h1>
             <p className="text-sm text-gray-500">Select a destination to view its features.</p>
 
-            {/* country buttons */}
             <div className="flex flex-col gap-2">
                 {Object.keys(countryData).map((key) => (
                     <button

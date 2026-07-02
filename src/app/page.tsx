@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-// dynamic import
+// Components within MapExplorer use React-Leaflet, which results in errors during server-side rendering (SSR)
 const DynamicExplorer = dynamic(() => import("../components/MapExplorer"), {
   ssr: false,
 });
