@@ -12,8 +12,16 @@ export interface Feature {
 export interface CountryData {
     name: string;
     description: string;
-    center: [number, number];
-    zoom: number;
+    centre: [number, number]; 
+    /**
+     * Visual override in countries where true centre
+     * does not produce an appropriate map view (e.g., Chile)
+     */
+    focusCentre?: [number, number]; 
+    zoom: {
+        desktop: number;
+        mobile: number;
+    };
     features: Feature[];
 }
 
@@ -21,6 +29,12 @@ export interface SidebarProps {
     countryData: Record<string, any>;
     activeCountry: string;
     onCountrySelect: (key: string) => void;
+}
+
+export interface SearchBarProps {
+    value: string;
+    onChange: (value: string) => void;
+    placeholder?: string;
 }
 
 export interface MapCanvasProps {

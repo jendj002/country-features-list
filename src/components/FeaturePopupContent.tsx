@@ -1,9 +1,11 @@
 import { FeaturePopupProps } from "@/types";
+import { formatForUrl } from "@/utils/stringUtils";
 import { getEmbedUrl } from "@/utils/youtube";
 
 export default function FeaturePopupContent({ feature }: FeaturePopupProps) {
     const isVideo = feature.mediaType === "video";
     const embedUrl = isVideo ? getEmbedUrl(feature.mediaUrl) : null;
+    const featureUrl = formatForUrl(feature.name);
 
     return (
         <div className="p-1 w-[80vw] sm:w-[340px] font-sans">
@@ -39,6 +41,13 @@ export default function FeaturePopupContent({ feature }: FeaturePopupProps) {
                     )}
                 </div>
             )}
+            <a 
+                href={`https://www.tripadvisor.com/Search?q=${featureUrl}`} 
+                className="block text-center text-blue-500 hover:underline text-sm mt-2" 
+                target="_blank" 
+                rel="noopener noreferrer">
+                    Tripadvisor
+            </a>
         </div>
     );
 }
