@@ -12,7 +12,7 @@ export default function FeaturePopupContent({ feature }: FeaturePopupProps) {
             <h3 className="font-bold text-gray-900 text-sm sm:text-base leading-tight">
                 {feature.name}
             </h3>
-            <p className="text-xs text-gray-600 mt-1 leading-relaxed max-h-[80px] overflow-y-auto">
+            <p className="text-xs text-gray-600 leading-relaxed max-h-[60px] sm:max-h-[80px] overflow-y-auto pr-1">
                 {feature.description}
             </p>
 
@@ -46,7 +46,7 @@ export default function FeaturePopupContent({ feature }: FeaturePopupProps) {
                 className="block text-center text-blue-500 hover:underline text-sm mt-2" 
                 target="_blank" 
                 rel="noopener noreferrer">
-                    Tripadvisor
+                Tripadvisor
             </a>
         </div>
     );

@@ -72,7 +72,7 @@ export default function MapCanvas({ currentCountry }: MapCanvasProps) {
                             weight={4}
                             bubblingMouseEvents={false}
                         >
-                            <Popup maxWidth={420} minWidth={280} className="responsive-map-popup">
+                            <Popup maxWidth={420} minWidth={280}className="responsive-map-popup">
                                 <FeaturePopupContent feature={feature} />
                             </Popup>
                         </Polyline>
@@ -81,7 +81,6 @@ export default function MapCanvas({ currentCountry }: MapCanvasProps) {
                 return null; 
             })}
 
-            {/* Cluster markers to stop user from requiring to zoom manually */}
             <MarkerClusterGroup
                 chunkedLoading
                 maxclusterRadius={50}

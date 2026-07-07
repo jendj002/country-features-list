@@ -281,7 +281,7 @@ export const countryData: Record<string, any> = {
                 type: "point",
                 coordinates: [34.882, -1.317],
                 mediaType: "video",
-                mediaUrl: "https://www.youtube.com/watch?v=EkSQghp8wpQ"
+                mediaUrl: "https://www.youtube.com/watch?v=tzmnCsWhQeU"
             }
         ]
     },

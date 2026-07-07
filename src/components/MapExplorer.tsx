@@ -10,14 +10,16 @@ export default function MapExplorer() {
     const currentCountry = countryData[activeCountry];
 
     return (
-        <div className="flex h-screen w-screen flex-col lg:flex-row bg-gray-100"> 
-            <Sidebar
-                countryData={countryData}
-                activeCountry={activeCountry}
-                onCountrySelect={setActiveCountry}
-            />
+        <div className="h-screen w-screen overflow-hidden flex flex-col lg:flex-row bg-gray-100"> 
+            <div className="w-full lg:w-80 h-[40vh] short:h-auto lg:h-full flex-shrink-0 flex flex-col min-0">
+                <Sidebar
+                    countryData={countryData}
+                    activeCountry={activeCountry}
+                    onCountrySelect={setActiveCountry}
+                />
+            </div>
 
-            <main className="flex-1 bg-gray-200 flex items-center justify-center font-semibold text-gray-400">
+            <main className="flex-1 h-[60vh] short:h-auto lg:h-full bg-gray-200 min-h-0 relative">
                 <MapCanvas currentCountry={currentCountry} />
             </main>
         </div>
