@@ -72,7 +72,7 @@ export default function MapCanvas({ currentCountry }: MapCanvasProps) {
                             key={feature.id}
                             positions={feature.coordinates as [number, number][]}
                             color="red"
-                            weight={4}
+                            weight={6}
                             bubblingMouseEvents={false}
                         >
                             <Popup maxWidth={420} minWidth={280}className="responsive-map-popup">
