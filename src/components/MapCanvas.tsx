@@ -86,7 +86,7 @@ export default function MapCanvas({ currentCountry }: MapCanvasProps) {
 
             <MarkerClusterGroup
                 chunkedLoading
-                maxclusterRadius={50}
+                maxClusterRadius={10}
                 removeOutsideVisibleBounds={false} // Prevent auto-closing of popups when marker goes outside of visible bounds on opening
             >
                 {currentCountry.features.map((feature: Feature) => {
