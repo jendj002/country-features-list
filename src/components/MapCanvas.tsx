@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Polyline, useMap, Popup, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, useMap, Popup, Marker, ZoomControl } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
@@ -35,11 +35,14 @@ export default function MapCanvas({ currentCountry }: MapCanvasProps) {
             className="h-full w-full"
             center={currentCountry.centre}
             zoom={zoom}
+            zoomControl={false} // Remove default zoom control that blocks popup on mobile
         >
-            <div className="leaflet-top leaflet-right p-4">
+            <ZoomControl position="bottomleft" />
+
+            <div className="leaflet-bottom leaflet-right p-4">
                 <button
                     onClick={(e) => {
-                        // prevent map click or drag handlers from triggering on button click
+                        // Prevent map click or drag handlers from triggering on button click
                         e.stopPropagation();
                         setRecentreToggle(prev => !prev);
                     }}
@@ -84,6 +87,7 @@ export default function MapCanvas({ currentCountry }: MapCanvasProps) {
             <MarkerClusterGroup
                 chunkedLoading
                 maxclusterRadius={50}
+                removeOutsideVisibleBounds={false} // Prevent auto-closing of popups when marker goes outside of visible bounds on opening
             >
                 {currentCountry.features.map((feature: Feature) => {
                     if (feature.type === "point") {

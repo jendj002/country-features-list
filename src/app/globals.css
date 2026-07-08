@@ -11,6 +11,11 @@
   border-radius: 4px;
 }
 
+.responsive-map-popup .leaflet-popup-content {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
