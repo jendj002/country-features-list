@@ -12,8 +12,17 @@
 }
 
 .responsive-map-popup .leaflet-popup-content {
-  max-height: 60vh;
+  max-height: min(300px, 50vh);
   overflow-y: auto;
+}
+
+.responsive-map-popup .leaflet-popup-content-wrapper {
+  max-height: 70vh;
+  overflow: hidden;
+}
+
+.responsive-map-popup .leaflet-popup-close-button {
+  font-size: 24px !important;
 }
 
 :root {
