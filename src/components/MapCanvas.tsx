@@ -66,15 +66,50 @@ export default function MapCanvas({ currentCountry }: MapCanvasProps) {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            {currentCountry.features.map((feature: Feature) => {
-                if (feature.type === "path") {
-                    return (
-                        <Polyline
+            {currentCountry.features
+                .filter((feature: Feature) => feature.type === "path")
+                .map((feature: Feature) => (
+                    <Polyline
+                        key={feature.id}
+                        positions={feature.coordinates as [number, number][]}
+                        color="red"
+                        weight={6}
+                        bubblingMouseEvents={false}
+                    >
+                        <Popup
+                            maxWidth={300}
+                            minWidth={280}
+                            className="responsive-map-popup"
+                        >
+                            <FeaturePopupContent feature={feature} />
+                        </Popup>
+                    </Polyline>
+                ))
+            }
+
+            <MarkerClusterGroup
+                chunkedLoading
+                maxClusterRadius={10}
+                removeOutsideVisibleBounds={false} // Prevent auto-closing of popups when marker goes outside of visible bounds on opening
+            >
+                {currentCountry.features
+                    .filter((feature: Feature) => feature.type === "point")
+                    .map((feature: Feature) => (
+                        <Marker
                             key={feature.id}
-                            positions={feature.coordinates as [number, number][]}
-                            color="red"
-                            weight={6}
-                            bubblingMouseEvents={false}
+                            position={feature.coordinates as [number, number]}
+                            icon={markerIcon}
+                            eventHandlers={{
+                                popupopen: (e) => {
+                                    // Leaflet incorrectly measures popup size on first popup opening for markers
+                                    // leading to popup opening off screen on slower devices
+                                    // short delay allows the layout to complete before checking for correct positioning
+                                    setTimeout(() => {
+                                        const popupEl = e.popup.getElement();
+                                        if (popupEl) correctPopupOverflow(e.target._map, popupEl);
+                                    }, 300);
+                                }
+                            }}
                         >
                             <Popup
                                 maxWidth={300}
@@ -83,48 +118,9 @@ export default function MapCanvas({ currentCountry }: MapCanvasProps) {
                             >
                                 <FeaturePopupContent feature={feature} />
                             </Popup>
-                        </Polyline>
-                    );
+                        </Marker>
+                    ))
                 }
-                return null;
-            })}
-
-            <MarkerClusterGroup
-                chunkedLoading
-                maxClusterRadius={10}
-                removeOutsideVisibleBounds={false} // Prevent auto-closing of popups when marker goes outside of visible bounds on opening
-            >
-                {currentCountry.features.map((feature: Feature) => {
-                    if (feature.type === "point") {
-                        return (
-                            <Marker
-                                key={feature.id}
-                                position={feature.coordinates as [number, number]}
-                                icon={markerIcon}
-                                eventHandlers={{
-                                    popupopen: (e) => {
-                                        // Leaflet incorrectly measures popup size on first popup opening for markers
-                                        // leading to popup opening off screen on slower devices
-                                        // short delay allows the layout to complete before checking for correct positioning
-                                        setTimeout(() => {
-                                           const popupEl = e.popup.getElement();
-                                           if (popupEl) correctPopupOverflow(e.target._map, popupEl);
-                                        }, 300); 
-                                    }
-                                }}
-                            >
-                                <Popup
-                                    maxWidth={300}
-                                    minWidth={280}
-                                    className="responsive-map-popup"
-                                >
-                                    <FeaturePopupContent feature={feature} />
-                                </Popup>
-                            </Marker>
-                        );
-                    }
-                    return null;
-                })}
             </MarkerClusterGroup>
         </MapContainer>
     );
