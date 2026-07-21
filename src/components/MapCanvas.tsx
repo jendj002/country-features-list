@@ -9,6 +9,7 @@ import { Feature } from "@/types";
 import FeaturePopupContent from "./FeaturePopupContent";
 import { markerIcon } from "@/utils/marker";
 import { MapCanvasProps } from "@/types";
+import { correctPopupOverflow } from "@/utils/popupHelper";
 
 // Custom map controller to handle flyTo on country change
 function MapController({ centre, zoom, recentreToggle }: { centre: [number, number]; zoom: number; recentreToggle: boolean }) {
@@ -23,13 +24,13 @@ function MapController({ centre, zoom, recentreToggle }: { centre: [number, numb
 
 export default function MapCanvas({ currentCountry }: MapCanvasProps) {
     const [recentreToggle, setRecentreToggle] = useState<boolean>(false);
-    
-    const isMobile = window.innerWidth <= 768; 
 
-    const zoom = isMobile 
-    ? currentCountry.zoom.mobile 
-    : currentCountry.zoom.desktop;
-    
+    const isMobile = window.innerWidth <= 768;
+
+    const zoom = isMobile
+        ? currentCountry.zoom.mobile
+        : currentCountry.zoom.desktop;
+
     return (
         <MapContainer
             className="h-full w-full"
@@ -54,8 +55,8 @@ export default function MapCanvas({ currentCountry }: MapCanvasProps) {
                 </button>
             </div>
 
-            <MapController 
-                centre={currentCountry.focusCentre ?? currentCountry.centre} 
+            <MapController
+                centre={currentCountry.focusCentre ?? currentCountry.centre}
                 zoom={zoom}
                 recentreToggle={recentreToggle}
             />
@@ -75,13 +76,17 @@ export default function MapCanvas({ currentCountry }: MapCanvasProps) {
                             weight={6}
                             bubblingMouseEvents={false}
                         >
-                            <Popup maxWidth={420} minWidth={280}className="responsive-map-popup">
+                            <Popup
+                                maxWidth={300}
+                                minWidth={280}
+                                className="responsive-map-popup"
+                            >
                                 <FeaturePopupContent feature={feature} />
                             </Popup>
                         </Polyline>
                     );
                 }
-                return null; 
+                return null;
             })}
 
             <MarkerClusterGroup
@@ -96,8 +101,23 @@ export default function MapCanvas({ currentCountry }: MapCanvasProps) {
                                 key={feature.id}
                                 position={feature.coordinates as [number, number]}
                                 icon={markerIcon}
+                                eventHandlers={{
+                                    popupopen: (e) => {
+                                        // Leaflet incorrectly measures popup size on first popup opening for markers
+                                        // leading to popup opening off screen on slower devices
+                                        // short delay allows the layout to complete before checking for correct positioning
+                                        setTimeout(() => {
+                                           const popupEl = e.popup.getElement();
+                                           if (popupEl) correctPopupOverflow(e.target._map, popupEl);
+                                        }, 300); 
+                                    }
+                                }}
                             >
-                                <Popup maxWidth={420} minWidth={280} className="responsive-map-popup">
+                                <Popup
+                                    maxWidth={300}
+                                    minWidth={280}
+                                    className="responsive-map-popup"
+                                >
                                     <FeaturePopupContent feature={feature} />
                                 </Popup>
                             </Marker>
